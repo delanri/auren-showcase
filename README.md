@@ -179,4 +179,4 @@ When Auren recalls a memory, it passes through:
 
 This is a private, daily-use application — not open source. This repository serves as a portfolio showcase of the architecture, design, and engineering work involved.
 
-**Solo developer** — every line of frontend, backend, deployment, and design was built by one person over ~14 months (Vue learning started July 2024, first frontend October 2024, full-stack from May 2025).
+**Solo developer** —every line of frontend, backend, deployment, and design was built by one person. First line of code written in July 2025; Auren development started December 2025. Total time from zero coding experience to full-stack production app: under 12 months.
