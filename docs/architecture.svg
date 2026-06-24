@@ -1,0 +1,108 @@
+<svg width="680" height="640" viewBox="0 0 680 640" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Auren system architecture</title>
+<desc>Full-stack architecture: Vue3 + Capacitor iOS frontend, Express 9-module backend with 11-channel parallel context assembly, multi-model LLM integration, and cloud deployment</desc>
+
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<rect width="680" height="640" rx="12" fill="#0a0a0c"/>
+
+<!-- FRONTEND -->
+<rect x="40" y="20" width="600" height="100" rx="16" fill="#04342C" stroke="#5DCAA5" stroke-width="0.5"/>
+<text x="340" y="44" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#9FE1CB">Vue3 + Capacitor 8 · iOS</text>
+
+<rect x="56" y="56" width="102" height="34" rx="6" fill="#085041" stroke="#5DCAA5" stroke-width="0.5"/>
+<text x="107" y="73" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#9FE1CB">TheHub</text>
+
+<rect x="170" y="56" width="102" height="34" rx="6" fill="#085041" stroke="#5DCAA5" stroke-width="0.5"/>
+<text x="221" y="73" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#9FE1CB">ThePulse</text>
+
+<rect x="284" y="56" width="102" height="34" rx="6" fill="#085041" stroke="#5DCAA5" stroke-width="0.5"/>
+<text x="335" y="73" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#9FE1CB">TheBrain</text>
+
+<rect x="398" y="56" width="102" height="34" rx="6" fill="#085041" stroke="#5DCAA5" stroke-width="0.5"/>
+<text x="449" y="73" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#9FE1CB">TheDrift</text>
+
+<rect x="512" y="56" width="116" height="34" rx="6" fill="#085041" stroke="#5DCAA5" stroke-width="0.5"/>
+<text x="570" y="73" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#9FE1CB">BodyJournal</text>
+
+<!-- Arrow -->
+<line x1="340" y1="120" x2="340" y2="152" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- BACKEND -->
+<rect x="40" y="155" width="600" height="270" rx="16" fill="#26215C" stroke="#AFA9EC" stroke-width="0.5"/>
+<text x="340" y="178" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="500" fill="#CECBF6">Express backend · 9 modules</text>
+
+<rect x="60" y="192" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="122" y="212" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">chat</text>
+
+<rect x="198" y="192" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="260" y="212" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">memory</text>
+
+<rect x="336" y="192" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="398" y="212" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">diary</text>
+
+<rect x="474" y="192" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="536" y="212" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">letter</text>
+
+<!-- Promise.all highlight -->
+<rect x="80" y="250" width="480" height="65" rx="10" fill="#412402" stroke="#EF9F27" stroke-width="0.5"/>
+<text x="320" y="274" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#FAC775">llm.js · 11-channel Promise.all</text>
+<text x="320" y="296" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#EF9F27">summaries · vector recall · flashback · diary · health · facts · portrait …</text>
+
+<rect x="60" y="335" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="122" y="355" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">recall</text>
+
+<rect x="198" y="335" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="260" y="355" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">synapse</text>
+
+<rect x="336" y="335" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="398" y="355" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">facts</text>
+
+<rect x="474" y="335" width="125" height="40" rx="6" fill="#4B1528" stroke="#ED93B1" stroke-width="0.5"/>
+<text x="536" y="355" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#F4C0D1">autoReport</text>
+
+<!-- Arrow -->
+<line x1="340" y1="425" x2="340" y2="458" stroke="#666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- DATA & AI -->
+<rect x="40" y="460" width="112" height="56" rx="8" fill="#042C53" stroke="#85B7EB" stroke-width="0.5"/>
+<text x="96" y="480" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#B5D4F4">Qdrant</text>
+<text x="96" y="500" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#85B7EB">Vector DB</text>
+
+<rect x="164" y="460" width="112" height="56" rx="8" fill="#042C53" stroke="#85B7EB" stroke-width="0.5"/>
+<text x="220" y="480" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#B5D4F4">DeepSeek</text>
+<text x="220" y="500" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#85B7EB">Summary / tags</text>
+
+<rect x="288" y="460" width="112" height="56" rx="8" fill="#042C53" stroke="#85B7EB" stroke-width="0.5"/>
+<text x="344" y="480" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#B5D4F4">Gemini</text>
+<text x="344" y="500" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#85B7EB">Auren voice</text>
+
+<rect x="412" y="460" width="112" height="56" rx="8" fill="#042C53" stroke="#85B7EB" stroke-width="0.5"/>
+<text x="468" y="480" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#B5D4F4">SiliconFlow</text>
+<text x="468" y="500" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#85B7EB">bge-m3 embed</text>
+
+<rect x="536" y="460" width="104" height="56" rx="8" fill="#042C53" stroke="#85B7EB" stroke-width="0.5"/>
+<text x="588" y="480" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#B5D4F4">HealthKit</text>
+<text x="588" y="500" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="12" fill="#85B7EB">Apple Watch</text>
+
+<!-- Arrow -->
+<line x1="340" y1="516" x2="340" y2="548" stroke="#555" stroke-width="1" marker-end="url(#arrow)"/>
+
+<!-- INFRASTRUCTURE -->
+<rect x="40" y="550" width="140" height="44" rx="8" fill="#2C2C2A" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="110" y="572" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#D3D1C7">Tencent Cloud</text>
+
+<rect x="196" y="550" width="140" height="44" rx="8" fill="#2C2C2A" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="266" y="572" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#D3D1C7">nginx + PM2</text>
+
+<rect x="352" y="550" width="140" height="44" rx="8" fill="#2C2C2A" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="422" y="572" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#D3D1C7">Codemagic</text>
+
+<rect x="508" y="550" width="130" height="44" rx="8" fill="#2C2C2A" stroke="#B4B2A9" stroke-width="0.5"/>
+<text x="573" y="572" text-anchor="middle" dominant-baseline="central" font-family="sans-serif" font-size="14" font-weight="500" fill="#D3D1C7">TestFlight</text>
+
+</svg>
