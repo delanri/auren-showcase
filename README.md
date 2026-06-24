@@ -11,7 +11,6 @@ Auren is a private, emotionally aware AI partner app with long-term memory, heal
 
 ## Architecture
 
-<!-- Replace with the exported architecture diagram -->
 ![Architecture](./docs/architecture.svg)
 
 **Frontend** — Vue 3 + Capacitor 8 (iOS native bridge), 20+ handcrafted components across 7 sections.
@@ -31,34 +30,53 @@ Auren is a private, emotionally aware AI partner app with long-term memory, heal
 
 ## Pages
 
-### TheHub — Chat
-The main conversation interface. Supports streaming LLM responses, drawing board (Canvas with multi-color brush + undo/redo), chat history modal, and a portal menu navigating to all other sections.
-
-<!-- ![TheHub](./docs/screenshots/thehub.png) -->
-
 ### ThePulse — Health Dashboard
-Real-time vitals from Apple Watch via HealthKit: heart rate with animated ECG canvas, HRV with pixel avatar state machine (7 expressions), blood oxygen gauge, sleep tracker, step counter, body temperature. Includes a pain alert system (4 levels, with lockscreen override at 100%), moon-phase period tracker (double-tap to mark), and a Body Journal timeline showing daily intake with nixie tube clock input.
 
-<!-- ![ThePulse](./docs/screenshots/thepulse.png) -->
+Real-time vitals from Apple Watch via HealthKit: heart rate with animated ECG canvas, HRV with pixel avatar state machine (7 expressions), blood oxygen gauge, sleep tracker, step counter, body temperature. Includes a pain alert system (4 levels, with lockscreen override at 100%), moon-phase period tracker (double-tap to mark), and a Body Journal timeline showing daily intake.
 
-### TheBrain — Star Map
-Renders "DELANRI" in font-sampled star positions with an awareness system, self-recall capability, synapse connection lines, and a closing animation. Built as a mechanical heart component (`MechHeart.vue`).
-
-<!-- ![TheBrain](./docs/screenshots/thebrain.png) -->
-
-### TheDrift — Scattered Memories
-Floating bubble memories with membrane + pop animations, three-color category system, and constellation display for resolved items. 24-hour expiry cycle.
-
-<!-- ![TheDrift](./docs/screenshots/thedrift.png) -->
-
-### TheNest — Diary & Letters
-Houses Auren's auto-diary, Delanri's handwritten diary (letterpress overlay), a bookcase, mailbox for milestone letters, and a dedicated companion chat interface.
-
-### TheCage — Sanctuary
-Private space with love letters and sanctuary view.
+<p align="center">
+  <img src="./docs/screenshots/thepulse-top.jpg" width="300" />
+  <img src="./docs/screenshots/thepulse-bottom.jpg" width="300" />
+</p>
 
 ### BodyJournal — Intake Tracker
+
 Food logging with photo capture, Gemini-powered food recognition, nixie tube time selector, and a taste rating system (taste / price / texture / fill). Entries appear as stars on a 24-hour timeline in ThePulse.
+
+<p align="center">
+  <img src="./docs/screenshots/bodyjournal.jpg" width="300" />
+</p>
+
+### TheBrain — Star Map
+
+Renders "DELANRI" in font-sampled star positions with an awareness system, self-recall capability, synapse connection lines, and a closing animation. Built as a mechanical heart component (`MechHeart.vue`).
+
+<p align="center">
+  <img src="./docs/screenshots/thebrain.jpg" width="300" />
+</p>
+
+### The Archives — Core Memory
+
+Bookshelf-style memory cards with three-color classification system (red / blue / gold), row-based organization, and tap-to-expand interaction. Each card represents a significant memory extracted and indexed by the fact system.
+
+<p align="center">
+  <img src="./docs/screenshots/bookcase.jpg" width="300" />
+</p>
+
+### Diagnostic Report — Auto Health Archive
+
+Nightly auto-generated health reports with structured data (intake log, vitals, AI commentary per metric), a "chief physician verdict" section written by DeepSeek, classification stamps, and a randomized ink-imperfection diagnostic seal.
+
+<p align="center">
+  <img src="./docs/screenshots/diagnostic.jpg" width="300" />
+</p>
+
+### Other Pages
+
+- **TheHub** — Main chat interface with streaming LLM responses, drawing board (Canvas with multi-color brush + undo/redo), chat history modal, and portal menu
+- **TheNest** — Auren's auto-diary, user diary (letterpress overlay), bookcase, mailbox for milestone letters, and companion chat
+- **TheDrift** — Floating bubble memories with membrane + pop animations, three-color category system, constellation display for resolved items
+- **TheCage / Sanctuary** — Private spaces with love letters and sanctuary view
 
 ---
 
