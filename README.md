@@ -1,3 +1,6 @@
+**English** | [中文](./README_CN.md)
+
+
 # Auren
 
 **A deeply personalized AI companion — full-stack iOS application built solo from scratch.**
