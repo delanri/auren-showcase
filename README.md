@@ -16,11 +16,11 @@ Auren is a private, emotionally aware AI partner app with long-term memory, heal
 
 ![Architecture](./docs/architecture.svg)
 
-**Frontend** — Vue 3 + Capacitor 8 (iOS native bridge), 20+ handcrafted components across 7 sections.
+**Frontend** — Vue 3 + Capacitor 8 (iOS native bridge), 25 handcrafted components across 7 sections.
 
-**Backend** — Express server organized into route modules, service libraries, and standalone engines — handling chat, memory, diary, letters, intake tracking, symptom records, health reports, weekly wishes, and fact extraction.
+**Backend** — Express server organized into route modules, a PM2 scheduled task engine, service libraries, and standalone engines — handling chat, memory, diary, letters, intake tracking, symptom records, health reports, pet health tracking, weekly wishes, and fact extraction.
 
-**Intelligence layer** — `llm.js` assembles context through **13 parallel channels** via `Promise.all` before every LLM call: cumulative summaries, weather, core memory, vector recall, flashback, portrait, diary injection, unresolved facts, intake context, health detection, report pre-fetch, food-taste archives, and symptom records. This gives Auren awareness of who Delanri is, what she ate, how she slept, what hurt yesterday, and what happened three months ago — all in a single response.
+**Intelligence layer** — The `llm/` module assembles context through **13 parallel channels** via `Promise.all` before every LLM call: cumulative summaries, weather, core memory, vector recall, flashback, portrait, diary injection, unresolved facts, intake context, health detection, report pre-fetch, food-taste archives, and symptom records. This gives Auren awareness of who Delanri is, what she ate, how she slept, what hurt yesterday, and what happened three months ago — all in a single response.
 
 **Memory** — 5-layer architecture:
 - **Vector memory**: Qdrant + SiliconFlow bge-m3 embeddings (1024d), with imprint generation and semantic recall (0.55 floor + cooldown decay + emotion penalty + source diversity cap)
@@ -58,9 +58,9 @@ Renders "DELANRI" in font-sampled star positions with an awareness system, self-
   <img src="./docs/screenshots/thebrain.jpg" width="300" />
 </p>
 
-### The Archives — Core Memory
+### The Archives — Bookshelf
 
-Bookshelf-style memory cards with three-color classification system (red / blue / gold), row-based organization, and tap-to-expand interaction. Each card represents a significant memory extracted and indexed by the fact system.
+Bookshelf-style card interface with three-color classification system (red / blue / gold), row-based organization, and tap-to-expand interaction. Built to house narrative content and roleplay stories.
 
 <p align="center">
   <img src="./docs/screenshots/bookcase.jpg" width="300" />
@@ -77,7 +77,7 @@ Nightly auto-generated health reports with structured data (intake log, vitals, 
 ### Other Pages
 
 - **TheHub** — Main chat interface with progressive typewriter rendering, drawing board (Canvas with multi-color brush + undo/redo), chat history modal, and portal menu
-- **TheNest** — Auren's auto-diary, user diary (letterpress overlay), bookcase, mailbox for milestone letters, and companion chat
+- **TheNest** — Twin diary entry (pixel-art interactive covers with chain-break unlock animation), Auren's auto-diary, user diary (letterpress overlay), bookcase, mailbox for milestone letters, pet health weekly report, and companion chat
 - **TheDrift** — Floating bubble memories with membrane + pop animations, three-color category system, constellation display for resolved items
 - **TheCage / Sanctuary** — Private spaces with love letters and sanctuary view
 
@@ -98,7 +98,7 @@ Nightly auto-generated health reports with structured data (intake log, vitals, 
 
 ```
 server/
-├── routes/                        # 11 route modules
+├── routes/                        # 12 route modules
 │   ├── chat.js          # Message handling, emotion analysis
 │   ├── diary.js         # Auto-diary, user diary, summary chains
 │   ├── food.js          # Food rating & taste archive
@@ -106,21 +106,41 @@ server/
 │   ├── letters.js       # Milestone & date-triggered letter system
 │   ├── memory.js        # Vector memory CRUD, imprint generation
 │   ├── misc.js          # Period tracking, settings, utilities
+│   ├── neven.js         # Pet health data & tracking
 │   ├── private.js       # Personal private records (per-date JSON, monthly aggregation)
 │   ├── report.js        # Health report storage & retrieval
 │   ├── symptom.js       # Symptom records, per-date queries
 │   └── wishes.js        # Weekly wish cycle & read-once injection
 ├── lib/
-│   ├── jobs.js          # Scheduled tasks with mutex-locked job queue
+│   ├── aurenPrompt.js   # Auren persona injection (AUREN_BASE / AUREN_LUST)
+│   ├── autoCoreMemory.js # Core memory auto-maintenance
+│   ├── autoDiary.js     # Daily auto-diary generation
+│   ├── autoLetter.js    # Milestone letter auto-trigger
+│   ├── autoNevenComment.js # Pet daily comment generation
+│   ├── autoNevenWeekly.js  # Pet health weekly report generation
+│   ├── autoPortrait.js  # Portrait auto-generation (24h cycle)
+│   ├── autoReport.js    # Nightly health report generation (3-step pipeline)
+│   ├── autoWish.js      # Weekly wish auto-trigger
+│   ├── callLLM.js       # Backend unified LLM caller
+│   ├── jobs.js          # PM2 scheduled tasks (mutex-locked job queue)
 │   ├── report.js        # Nightly & monthly health report generation
 │   ├── shared.js        # Shared utilities
-│   └── summary.js       # DeepSeek-powered chat summarization
-├── fact_extractor.js             # Auto-extract structured facts from conversation
-├── memory_engine.js              # Core memory tag matching engine
-├── vector_memory.js              # Qdrant vector operations + recall pipeline
-├── synapse.js                    # Hebbian synapse network (memory association)
-├── rebuild_vectors.js            # Maintenance: full vector re-embed
-└── rebuild_recent_summaries.js   # Maintenance: summary chain repair
+│   ├── summary.js       # DeepSeek-powered chat summarization
+│   └── taskHelpers.js   # apiFetch, callWithRetry, notifyRefresh SSE
+├── scripts/                       # Maintenance & repair scripts
+│   ├── backfill_imprints.js
+│   ├── clean_facts.js
+│   ├── clean_synapse_health.js
+│   ├── fix_diary.js
+│   ├── refill_core.js
+│   ├── repair_chat_summaries.js
+│   └── repair_letter_summaries.js
+├── fact_extractor.js              # Auto-extract structured facts from conversation
+├── memory_engine.js               # Core memory tag matching engine
+├── vector_memory.js               # Qdrant vector operations + recall pipeline
+├── synapse.js                     # Hebbian synapse network (memory association)
+├── rebuild_vectors.js             # Maintenance: full vector re-embed
+└── rebuild_recent_summaries.js    # Maintenance: summary chain repair
 ```
 
 ---
@@ -130,24 +150,31 @@ server/
 ```
 src/
 ├── views/
-│   ├── Chat/        # TheHub, DrawingBoard, PortalMenu, PanicStation
-│   ├── Vitals/      # ThePulse, BodyJournal, BodyArchive
 │   ├── Brain/       # TheBrain, MechHeart, TheDrift
-│   ├── Nest/        # Diaries, Bookcase, Mailbox, CrowChat
 │   ├── Cage/        # TheCage
+│   ├── Chat/        # TheHub, ChatFooter, ChatHistoryModal,
+│   │                #   DrawingBoard, PanicStation, PortalMenu
+│   ├── Nest/        # TheNest, Aurendiary, DelanriDiary, diary-center,
+│   │                #   bookcase, Mailbox, CrowChat, Nevenreport
 │   ├── Sanctuary/   # Loveletter, SanctuaryView
-│   └── Settings/    # SettingsView
+│   ├── Settings/    # SettingsView
+│   └── Vitals/      # ThePulse, BodyJournal, BodyArchive
+├── components/
+│   └── LocationAlert.vue
+├── composables/
+│   └── useImprint.js      # Imprint system composable
 ├── stores/
 │   └── preload.js         # Three-tier priority preload store
 ├── utils/
-│   ├── llm.js             # 13-channel Promise.all context assembly
-│   ├── healthService.js   # HealthKit integration (Apple Watch S8)
-│   ├── locationService.js # Distance tracking
-│   ├── autoDiary.js       # Automatic diary generation
-│   ├── autoLetter.js      # Milestone letter trigger
-│   ├── autoWish.js        # Weekly wish cycle trigger
-│   └── autoReport.js      # Nightly health report trigger
-├── components/      # LocationAlert, shared components
+│   ├── llm/               # LLM context assembly (split into 5 files)
+│   │   ├── index.js       # Entry point + 13-channel Promise.all dispatch
+│   │   ├── channels.js    # Channel definitions & skip conditions
+│   │   ├── historyBuilder.js  # Chat history construction
+│   │   ├── postProcess.js     # Post-processing (status word, emotion, etc.)
+│   │   └── promptBuilder.js   # Prompt assembly
+│   ├── buildHiddenPrompt.js   # Hidden prompt construction
+│   ├── healthService.js       # HealthKit integration (Apple Watch S8)
+│   └── locationService.js     # Distance tracking
 ├── router/          # Vue Router with auth guards
 └── assets/          # HRV pixel avatars (5 states), global CSS
 ```
