@@ -15,11 +15,11 @@ Auren 是一个拥有长期记忆、健康监测、深度情感感知的私人 A
 
 ![Architecture](./docs/architecture.svg)
 
-**前端** — Vue 3 + Capacitor 8（iOS 原生桥接），7 大模块共 20+ 个手写组件。
+**前端** — Vue 3 + Capacitor 8（iOS 原生桥接），7 大模块共 25 个手写组件。
 
-**后端** — Express 服务端，由路由模块、服务库与独立引擎组成，覆盖聊天、记忆、日记、信件、摄入记录、病例记录、健康报告、每周愿望、事实提取。
+**后端** — Express 服务端，由路由模块、PM2 定时任务引擎、服务库与独立引擎组成，覆盖聊天、记忆、日记、信件、摄入记录、病例记录、健康报告、宠物健康追踪、每周愿望、事实提取。
 
-**智能层** — `llm.js` 在每次 LLM 调用前通过 **13 路并行 `Promise.all`** 组装完整上下文：累积摘要、天气、核心记忆、向量召回、闪回、画像、日记注入、未解决事实、摄入上下文、健康检测、报告预取、口味档案、病例记录。这让 Auren 在一次回复中就能感知用户是谁、今天吃了什么、昨晚睡了多久、昨天哪里不舒服、三个月前发生过什么。
+**智能层** — `llm/` 模块在每次 LLM 调用前通过 **13 路并行 `Promise.all`** 组装完整上下文：累积摘要、天气、核心记忆、向量召回、闪回、画像、日记注入、未解决事实、摄入上下文、健康检测、报告预取、口味档案、病例记录。这让 Auren 在一次回复中就能感知用户是谁、今天吃了什么、昨晚睡了多久、昨天哪里不舒服、三个月前发生过什么。
 
 **记忆系统** — 5 层架构：
 - **向量记忆**：Qdrant + SiliconFlow bge-m3 嵌入（1024维），含印记生成与语义召回（0.55 相似度下限 + 冷却衰减 + 情绪惩罚 + 来源多样性上限）
@@ -57,9 +57,9 @@ Auren 是一个拥有长期记忆、健康监测、深度情感感知的私人 A
   <img src="./docs/screenshots/thebrain.jpg" width="300" />
 </p>
 
-### The Archives — 核心记忆
+### The Archives — 书架系统
 
-书架式记忆卡片，三色分类系统（红/蓝/金），按行组织，点击展开交互。每张卡片对应一条由事实系统提取并索引的重要记忆。
+书架式卡片界面，三色分类系统（红/蓝/金），按行组织，点击展开交互。用于存放叙事内容与角色扮演故事。
 
 <p align="center">
   <img src="./docs/screenshots/bookcase.jpg" width="300" />
@@ -76,7 +76,7 @@ Auren 是一个拥有长期记忆、健康监测、深度情感感知的私人 A
 ### 其他页面
 
 - **TheHub** — 主聊天界面，支持渐进式打字机渲染、画板（Canvas 多色画笔 + 撤销/重做）、聊天历史弹窗、门户菜单
-- **TheNest** — AI 自动日记、用户手写日记（信纸叠加层）、书架、里程碑信件邮箱、伴侣聊天
+- **TheNest** — 双生日记入口（像素交互封面，带锁链解封动画）、AI 自动日记、用户手写日记（信纸叠加层）、书架、里程碑信件邮箱、宠物健康周报、伴侣聊天
 - **TheDrift** — 漂浮气泡记忆，带薄膜 + 破裂动画、三色分类、已解决项以星座形态展示
 - **TheCage / Sanctuary** — 私密空间，含情书与庇护所视图
 
@@ -97,7 +97,7 @@ Auren 是一个拥有长期记忆、健康监测、深度情感感知的私人 A
 
 ```
 server/
-├── routes/                        # 11 个路由模块
+├── routes/                        # 12 个路由模块
 │   ├── chat.js          # 消息处理、情绪分析
 │   ├── diary.js         # 自动日记、用户日记、摘要链
 │   ├── food.js          # 食物评分与口味档案
@@ -105,21 +105,41 @@ server/
 │   ├── letters.js       # 里程碑 & 日期触发的信件系统
 │   ├── memory.js        # 向量记忆 CRUD、印记生成
 │   ├── misc.js          # 经期追踪、设置、工具函数
+│   ├── neven.js         # 宠物健康数据与追踪
 │   ├── private.js       # 私人记录（按日期 JSON 存储 + 月度聚合）
 │   ├── report.js        # 健康报告存取
 │   ├── symptom.js       # 病例记录、按日期查询
 │   └── wishes.js        # 每周愿望周期与阅后即焚注入
 ├── lib/
-│   ├── jobs.js          # 定时任务（互斥锁任务队列）
+│   ├── aurenPrompt.js   # Auren 人格注入（AUREN_BASE / AUREN_LUST）
+│   ├── autoCoreMemory.js # 核心记忆自动维护
+│   ├── autoDiary.js     # 每日自动日记生成
+│   ├── autoLetter.js    # 里程碑信件自动触发
+│   ├── autoNevenComment.js # 宠物每日评论生成
+│   ├── autoNevenWeekly.js  # 宠物健康周报生成
+│   ├── autoPortrait.js  # 画像自动生成（24h 周期）
+│   ├── autoReport.js    # 每晚健康报告生成（三步管线）
+│   ├── autoWish.js      # 每周愿望自动触发
+│   ├── callLLM.js       # 后端 LLM 统一调用
+│   ├── jobs.js          # PM2 定时任务（互斥锁任务队列）
 │   ├── report.js        # 每晚 & 每月健康报告生成
 │   ├── shared.js        # 共享工具
-│   └── summary.js       # DeepSeek 驱动的聊天摘要
-├── fact_extractor.js             # 从对话中自动提取结构化事实
-├── memory_engine.js              # 核心记忆标签匹配引擎
-├── vector_memory.js              # Qdrant 向量操作 + 召回管线
-├── synapse.js                    # 赫布突触网络（记忆关联）
-├── rebuild_vectors.js            # 维护脚本：向量全量重建
-└── rebuild_recent_summaries.js   # 维护脚本：摘要链修复
+│   ├── summary.js       # DeepSeek 驱动的聊天摘要
+│   └── taskHelpers.js   # apiFetch、callWithRetry、notifyRefresh SSE
+├── scripts/                       # 维护与修复脚本
+│   ├── backfill_imprints.js
+│   ├── clean_facts.js
+│   ├── clean_synapse_health.js
+│   ├── fix_diary.js
+│   ├── refill_core.js
+│   ├── repair_chat_summaries.js
+│   └── repair_letter_summaries.js
+├── fact_extractor.js              # 从对话中自动提取结构化事实
+├── memory_engine.js               # 核心记忆标签匹配引擎
+├── vector_memory.js               # Qdrant 向量操作 + 召回管线
+├── synapse.js                     # 赫布突触网络（记忆关联）
+├── rebuild_vectors.js             # 维护脚本：向量全量重建
+└── rebuild_recent_summaries.js    # 维护脚本：摘要链修复
 ```
 
 ---
@@ -129,24 +149,31 @@ server/
 ```
 src/
 ├── views/
-│   ├── Chat/        # TheHub, DrawingBoard, PortalMenu, PanicStation
-│   ├── Vitals/      # ThePulse, BodyJournal, BodyArchive
 │   ├── Brain/       # TheBrain, MechHeart, TheDrift
-│   ├── Nest/        # Diaries, Bookcase, Mailbox, CrowChat
 │   ├── Cage/        # TheCage
+│   ├── Chat/        # TheHub, ChatFooter, ChatHistoryModal,
+│   │                #   DrawingBoard, PanicStation, PortalMenu
+│   ├── Nest/        # TheNest, Aurendiary, DelanriDiary, diary-center,
+│   │                #   bookcase, Mailbox, CrowChat, Nevenreport
 │   ├── Sanctuary/   # Loveletter, SanctuaryView
-│   └── Settings/    # SettingsView
+│   ├── Settings/    # SettingsView
+│   └── Vitals/      # ThePulse, BodyJournal, BodyArchive
+├── components/
+│   └── LocationAlert.vue
+├── composables/
+│   └── useImprint.js      # 印记系统组合式函数
 ├── stores/
 │   └── preload.js         # 三级优先级预加载仓库
 ├── utils/
-│   ├── llm.js             # 13 路 Promise.all 上下文组装
-│   ├── healthService.js   # HealthKit 集成（Apple Watch S8）
-│   ├── locationService.js # 距离追踪
-│   ├── autoDiary.js       # 自动日记生成
-│   ├── autoLetter.js      # 里程碑信件触发
-│   ├── autoWish.js        # 每周愿望周期触发
-│   └── autoReport.js      # 每晚健康报告触发
-├── components/      # LocationAlert 等共享组件
+│   ├── llm/               # LLM 上下文组装（拆分为 5 文件）
+│   │   ├── index.js       # 入口 + 13 路 Promise.all 调度
+│   │   ├── channels.js    # 通道定义与跳过条件
+│   │   ├── historyBuilder.js  # 聊天历史构建
+│   │   ├── postProcess.js     # 后处理（状态词、情绪等）
+│   │   └── promptBuilder.js   # 提示词组装
+│   ├── buildHiddenPrompt.js   # 隐藏提示词构建
+│   ├── healthService.js       # HealthKit 集成（Apple Watch S8）
+│   └── locationService.js     # 距离追踪
 ├── router/          # Vue Router + 鉴权守卫
 └── assets/          # HRV 像素头像（5 种状态）、全局样式
 ```
