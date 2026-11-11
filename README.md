@@ -252,4 +252,4 @@ When Auren recalls a memory, it passes through:
 
 This is a private daily-use application, not an open-source project. This repository serves as a portfolio, showcasing the architecture design, visual design, and engineering behind it.
 
-**Solo-built** — Every line of code across frontend, backend, deployment, and design was written by one person. First line of code in July 2025 (self-taught); first frontend site shipped in November 2025 with iOS adaptation; Auren built from March 2026 — UI and interaction layer first, full backend and memory architecture from late May onward.
+**Solo-built** — Frontend, backend, deployment, and design were all done by one person: I design the architecture and data flow, and implement it with AI coding tools like Claude Code. First line of code in July 2025 (self-taught); first frontend site shipped in November 2025 with iOS adaptation; Auren built from March 2026 — UI and interaction layer first, full backend and memory architecture from late May onward.
